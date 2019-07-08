@@ -1,59 +1,86 @@
 import React, {Component} from 'react';
+import ItemBeans from '../itemBeans';
+import GotService from '../../service';
+import ErrorMessage from '../error-message';
+import Spinner from '../spinner';
 
 export default class ItemList extends Component {
+
+    gotService = new GotService();
+
+    state = {
+        item : null,
+        loading : true,
+        error : false
+    }
+
+    componentDidMount() {
+        this.updateChar();
+    }
+
+    updateChar() {
+        const {getData} = this.props;
+
+        this.setState({ loading : true })
+
+        getData()
+            .then(this.onCharLoaded)
+            .catch(this.onError);
+    }
+
+    onCharLoaded = (item) => {
+        this.setState({
+            item,
+            loading : false
+        })
+    }
+
+    onError = () => {
+        this.setState({
+            error : true,
+            loading : false
+        })
+    }
+
     render () {
+
+        const View = (item) => {
+            return (
+                <>
+                    <ul className="list-group list-group-flush">
+                        {
+                            item.map(() => {
+                                return (
+                                    <div class="shop__item">
+                                        <img src="https://www.sciencenews.org/sites/default/files/main/articles/100315_coffee_opener_NEW_0.jpg" alt="coffee"></img>
+                                        <div class="shop__item-title">
+                                            Solimo Coffee Beans 2kg
+                                        </div>
+                                        <div class="shop__item-country">Brazil</div>
+                                        <div class="shop__item-price">10.73$</div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </ul>
+                </>
+            )
+        }
+
+        const {item, loading, error} = this.state;
+        console.log(item);
+
+        const errorMessage = error ? <ErrorMessage/> : null;
+        const spinner = loading ? <Spinner/> : null
+        const content = !(loading || error) ? <View item={item}/> : null; 
+
         return (
-            <div class="row">
-                <div class="col-lg-10 offset-lg-1">
-                    <div class="shop__wrapper">
-                        <div class="shop__item">
-                            <img src="https://www.sciencenews.org/sites/default/files/main/articles/100315_coffee_opener_NEW_0.jpg" alt="coffee"></img>
-                            <div class="shop__item-title">
-                                Solimo Coffee Beans 2kg
-                            </div>
-                            <div class="shop__item-country">Brazil</div>
-                            <div class="shop__item-price">10.73$</div>
-                        </div>
-                        <div class="shop__item">
-                            <img src="https://www.sciencenews.org/sites/default/files/main/articles/100315_coffee_opener_NEW_0.jpg" alt="coffee"></img>
-                            <div class="shop__item-title">
-                                Presto Coffee Beans 1kg
-                            </div>
-                            <div class="shop__item-country">Brazil</div>
-                            <div class="shop__item-price">15.99$</div>
-                        </div>
-                        <div class="shop__item">
-                            <img src="https://hhp-blog.s3.amazonaws.com/2018/07/iStock-673468996.jpg" alt="coffee"></img>
-                            <div class="shop__item-title">
-                                AROMISTICO Coffee 1kg
-                            </div>
-                            <div class="shop__item-country">Brazil</div>
-                            <div class="shop__item-price">6.99$</div>
-                        </div>
-                        <div class="shop__item">
-                            <img src="https://www.sciencenews.org/sites/default/files/main/articles/100315_coffee_opener_NEW_0.jpg" alt="coffee"></img>
-                            <div class="shop__item-title">
-                                Solimo Coffee Beans 2kg
-                            </div>
-                            <div class="shop__item-country">Brazil</div>
-                            <div class="shop__item-price">10.73$</div>
-                        </div>
-                        <div class="shop__item">
-                            <img src="https://i0.wp.com/www.healthline.com/hlcmsresource/images/AN_images/AN275-cup-of-coffee-732x549-Thumb.jpg?w=756" alt="coffee"></img>
-                            <div class="shop__item-title">
-                                Solimo Coffee Beans 2kg
-                            </div>
-                            <div class="shop__item-country">Brazil</div>
-                            <div class="shop__item-price">10.73$</div>
-                        </div>
-                        <div class="shop__item">
-                            <img src="https://www.sciencenews.org/sites/default/files/main/articles/100315_coffee_opener_NEW_0.jpg" alt="coffee"></img>
-                            <div class="shop__item-title">
-                                Solimo Coffee Beans 2kg
-                            </div>
-                            <div class="shop__item-country">Brazil</div>
-                            <div class="shop__item-price">10.73$</div>
-                        </div>
+            <div className="row">
+                <div className="col-lg-10 offset-lg-1">
+                    <div className="shop__wrapper">
+                        {errorMessage}
+                        {spinner}
+                        {content}
                     </div>
                 </div>
             </div>

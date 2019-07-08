@@ -15,7 +15,7 @@ export default class AppHeader extends Component {
                                 </Link>
                             </li>
                             <li className="header__item">
-                                <Link to='/coffee'>Our coffee</Link>
+                                <Link to='/beans'>Our coffee</Link>
                             </li>
                             <li className="header__item">
                                 <Link to='pleasure'>For your pleasure</Link>

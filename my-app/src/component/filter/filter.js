@@ -6,7 +6,7 @@ export default class Filter extends Component {
             <div className="row">
                 <div className="col-lg-4 offset-2">
                     <form action="#" className="shop__search">
-                        <label className="shop__search-label" for="filter">Looking for</label>
+                        <label className="shop__search-label" htmlFor="filter">Looking for</label>
                         <input id="filter" type="text" placeholder="start typing here..." className="shop__search-input"></input>
                     </form>
                 </div>
