@@ -1,86 +1,63 @@
 import React, {Component} from 'react';
 import ItemBeans from '../itemBeans';
-import GotService from '../../service';
-import ErrorMessage from '../error-message';
-import Spinner from '../spinner';
+import GotService from '../../service/got-service';
 
 export default class ItemList extends Component {
 
     gotService = new GotService();
 
     state = {
-        item : null,
-        loading : true,
-        error : false
+        itemList : null
     }
 
     componentDidMount() {
-        this.updateChar();
+        this.updateItem();
     }
 
-    updateChar() {
+    updateItem() {
         const {getData} = this.props;
 
-        this.setState({ loading : true })
+        console.log(getData);
 
         getData()
-            .then(this.onCharLoaded)
-            .catch(this.onError);
+                .then(this.renderItem)
+                .catch();
     }
 
-    onCharLoaded = (item) => {
+    renderItem = (itemList) => {
         this.setState({
-            item,
-            loading : false
+            itemList
         })
     }
 
-    onError = () => {
-        this.setState({
-            error : true,
-            loading : false
-        })
+    renderItems(arr) {
+        return arr.map(item => {
+            const {name, country, url, price, description} = item;
+            return (
+                <div class="shop__item">
+                    <img src={url} alt="coffee"></img>
+                    <div class="shop__item-title">
+                        {name}
+                    </div>
+                    <div class="shop__item-country">{country}</div>
+                    <div class="shop__item-price">{price}$</div>
+                </div>
+            )
+        });
     }
 
     render () {
 
-        const View = (item) => {
-            return (
-                <>
-                    <ul className="list-group list-group-flush">
-                        {
-                            item.map(() => {
-                                return (
-                                    <div class="shop__item">
-                                        <img src="https://www.sciencenews.org/sites/default/files/main/articles/100315_coffee_opener_NEW_0.jpg" alt="coffee"></img>
-                                        <div class="shop__item-title">
-                                            Solimo Coffee Beans 2kg
-                                        </div>
-                                        <div class="shop__item-country">Brazil</div>
-                                        <div class="shop__item-price">10.73$</div>
-                                    </div>
-                                )
-                            })
-                        }
-                    </ul>
-                </>
-            )
-        }
-
-        const {item, loading, error} = this.state;
-        console.log(item);
-
-        const errorMessage = error ? <ErrorMessage/> : null;
-        const spinner = loading ? <Spinner/> : null
-        const content = !(loading || error) ? <View item={item}/> : null; 
+        const {itemList} = this.state;
+        console.log(itemList);
+        const items = this.renderItems(itemList);
 
         return (
-            <div className="row">
-                <div className="col-lg-10 offset-lg-1">
-                    <div className="shop__wrapper">
-                        {errorMessage}
-                        {spinner}
-                        {content}
+            <div class="row">
+                <div class="col-lg-10 offset-lg-1">
+                    <div class="shop__wrapper">
+                        {items}
+                        {/* <ItemBeans/> */}
                     </div>
                 </div>
             </div>

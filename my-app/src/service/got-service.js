@@ -1,10 +1,10 @@
-export default class RestoService {
+export default class GotService {
     constructor() {
         this._dataBase = 'http://localhost:3000';
     }
 
-    async getMenuItems() {
-        const res = await fetch(`${this._dataBase}`);
+    getService = async (url) => {
+        const res = await fetch(`${this._dataBase}${url}`);
 
         if (!res.ok) {
             throw new Error(`Could not fetch, status ${res.status}`);
@@ -14,48 +14,46 @@ export default class RestoService {
     };
 
     getBestSellers = async () => {
-        const result = await this.getMenuItems("/bestsellers");
+        const result = await this.getService("/bestsellers");
         return this._transformBestSellers(result);
     }
 
     getCoffee = async () => {
-        const result = await this.getMenuItems("/coffee");
+        const result = await this.getService("/coffee");
         return this._transformCoffee(result);
     }
 
     getGoods = async () => {
-        const result = await this.getMenuItems("/goods");
+        const result = await this.getService("/goods");
         return this._transformGoods(result);
     }
 
-    _transformBestSellers(char) {
+    _transformBestSellers(item) {
 
         return {
-            name : char.name,
-            url : char.url,
-            price : char.price,
-            id : char.url.replace(/\D+/, '')
+            name : item.name,
+            url : item.url,
+            price : item.price
         }
     }
 
-    _transformCoffee(char) {
+    _transformCoffee(item) {
 
         return {
-            name : char.name,
-            country : char.country,
-            url : char.url,
-            price : char.price,
-            id : char.url.replace(/\D+/, '')
+            name : item.name,
+            country : item.country,
+            url : item.url,
+            price : item.price,
+            description : item.description
         }
     }
 
-    _transformGoods(char) {
+    _transformGoods(item) {
 
         return {
-            name : char.name,
-            url : char.url,
-            price : char.price,
-            id : char.url.replace(/\D+/, '')
+            name : item.name,
+            url : item.url,
+            price : item.price
         }
     }
 }

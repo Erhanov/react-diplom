@@ -4,7 +4,7 @@ import CoffeeAbout from '../../coffee-about';
 import Filter from '../../filter';
 import ItemList from '../../itemList';
 import Footer from '../../footer';
-import GotService from '../../../service';
+import GotService from '../../../service/got-service';
 
 export default class OurCoffee extends Component {
 
