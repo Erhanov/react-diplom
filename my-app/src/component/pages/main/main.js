@@ -4,9 +4,12 @@ import Preview from '../../preview';
 import MainAbout from '../../main-about';
 import OurBest from '../../our-best';
 import Footer from '../../footer';
+import GotService from '../../../service/got-service';
 
 
 export default class Main extends Component {
+    gotService = new GotService();
+
     render () {
         return (
             <>
@@ -17,7 +20,7 @@ export default class Main extends Component {
                     </div>
                 </div>
                 <MainAbout/>
-                <OurBest/>
+                <OurBest getData={this.gotService.getBestSellers}/>
                 <Footer/> 
             </>
         )

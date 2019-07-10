@@ -13,10 +13,10 @@ export default class OurCoffee extends Component {
             <>
 
                 <Banner bg={'pleasure'}/>
-                <section class="shop">
-                    <div class="container">
+                <section className="shop">
+                    <div className="container">
                         <CoffeeAbout item={'pleasure'}/>
-                        <ItemList getData={this.gotService.getCoffee}/>
+                        <ItemList page={'pleasure'} getData={this.gotService.getGoods}/>
                     </div>
                 </section>
                 <Footer/>

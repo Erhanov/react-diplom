@@ -5,21 +5,99 @@ import Filter from '../../filter';
 import ItemList from '../../itemList';
 import Footer from '../../footer';
 import GotService from '../../../service/got-service';
+import Spinner from '../../spinner';
+import ErrorMessage from '../../error-message';
 
 export default class OurCoffee extends Component {
 
+    state = {
+        itemList : null,
+        loading : true,
+        error : false,
+        term : '',
+        filter : 'all',
+        selectedItem : null
+    }
+
     gotService = new GotService();
 
+    componentDidMount() {
+        this.updateItem()
+        
+    }
+
+    updateItem() {
+        const {getData} = this.props;
+
+        getData()
+            .then(this.renderList)
+            .catch();
+    }
+
+    renderList = (itemList) => {
+        this.setState({
+            itemList,
+            loading : false
+        })
+    }
+
+    onError() {
+        this.setState({
+            loading : false,
+            error : true
+        })
+    }
+
+    searchPost(items, term) {
+        if (term.length === 0) { 
+            return items 
+        } else { 
+            return items.filter((item) => { 
+                return item.name.toLowerCase().indexOf(term.toLowerCase()) > -1
+            }) 
+        }
+    }
+
+    filterPost(items, filter) {
+        if (filter === 'Brazil') {
+            return items.filter(item => item.country === filter);
+        } else if (filter === 'Kenya') {
+            return items.filter(item => item.country === filter);
+        } else if (filter === 'Columbia') {
+            return items.filter(item => item.country === filter);
+        } else{
+            return items;
+        }
+    }
+
+    onUpdateSearch = (term) => {
+        this.setState({term});
+    }
+
+    onFilterSelect = (filter) => {
+        this.setState({filter});
+    }
+
     render () {
+        const {itemList, loading, error, term, filter} = this.state;
+        const visibleLists = this.filterPost(this.searchPost(itemList, term), filter);
+
+
+        const errorMessage = error ? <ErrorMessage/> : null;
+        const spinner = loading ? <Spinner/> : null
+        const items = !(loading || error) ? <ItemList lists={visibleLists} getData={this.gotService.getCoffee}/> : null; 
+
         return (
             <>
 
                 <Banner bg={'banner'}/>
-                <section class="shop">
-                    <div class="container">
+                <section className="shop">
+                    <div className="container">
                         <CoffeeAbout/>
-                        <Filter/>
-                        <ItemList getData={this.gotService.getCoffee}/>
+                        <Filter onUpdateSearch={this.onUpdateSearch} onFilterSelect={this.onFilterSelect}/>
+                        {errorMessage}
+                        {spinner}
+                        {items}
                     </div>
                 </section>
                 <Footer/>

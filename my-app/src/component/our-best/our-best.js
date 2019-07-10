@@ -1,36 +1,58 @@
 import React, {Component} from 'react';
+import ErrorMessage from '../error-message';
+import Spinner from '../spinner';
+import ItemBeans from '../itemBeans';
 
 export default class OurBest extends Component {
+
+    state = {
+        itemList : null,
+        loading : true,
+        error : false
+    }
+
+    componentDidMount() {
+        this.updateItem();
+    }
+
+    updateItem() {
+        const {getData} = this.props;
+
+        getData()
+                .then(this.renderItem)
+                .catch();
+    }
+
+    renderItem = (itemList) => {
+        this.setState({
+            itemList,
+            loading : false
+        })
+    }
+
+    onError() {
+        this.setState({
+            loading : false,
+            error : true
+        })
+    }
+
     render () {
+        const {itemList, loading, error} = this.state;
+
+
+        const errorMessage = error ? <ErrorMessage/> : null;
+        const spinner = loading ? <Spinner/> : null
+        const items = !(loading || error) ? <ItemBeans itemList={itemList} page={'best'}/> : null; 
         return (
             <section className="best">
                 <div className="container">
                     <div className="title">Our best</div>
                     <div className="row">
                         <div className="col-lg-10 offset-lg-1">
-                            <div className="best__wrapper">
-                                <div className="best__item">
-                                    <img src="https://www.sciencenews.org/sites/default/files/main/articles/100315_coffee_opener_NEW_0.jpg" alt="coffee"></img>
-                                    <div className="best__item-title">
-                                        Solimo Coffee Beans 2kg
-                                    </div>
-                                    <div className="best__item-price">10.73$</div>
-                                </div>
-                                <div className="best__item">
-                                    <img src="https://www.sciencenews.org/sites/default/files/main/articles/100315_coffee_opener_NEW_0.jpg" alt="coffee"></img>
-                                    <div className="best__item-title">
-                                        Presto Coffee Beans 1kg
-                                    </div>
-                                    <div className="best__item-price">15.99$</div>
-                                </div>
-                                <div className="best__item">
-                                    <img src="https://www.sciencenews.org/sites/default/files/main/articles/100315_coffee_opener_NEW_0.jpg" alt="coffee"></img>
-                                    <div className="best__item-title">
-                                        AROMISTICO Coffee 1kg
-                                    </div>
-                                    <div className="best__item-price">6.99$</div>
-                                </div>
-                            </div>
+                            {errorMessage}
+                            {spinner}
+                            {items}
                         </div>
                     </div>
                 </div>

@@ -15,45 +15,21 @@ export default class GotService {
 
     getBestSellers = async () => {
         const result = await this.getService("/bestsellers");
-        return this._transformBestSellers(result);
+        return result;
     }
 
     getCoffee = async () => {
         const result = await this.getService("/coffee");
-        return this._transformCoffee(result);
+        return result;
     }
 
     getGoods = async () => {
         const result = await this.getService("/goods");
-        return this._transformGoods(result);
+        return result;
     }
 
-    _transformBestSellers(item) {
-
-        return {
-            name : item.name,
-            url : item.url,
-            price : item.price
-        }
-    }
-
-    _transformCoffee(item) {
-
-        return {
-            name : item.name,
-            country : item.country,
-            url : item.url,
-            price : item.price,
-            description : item.description
-        }
-    }
-
-    _transformGoods(item) {
-
-        return {
-            name : item.name,
-            url : item.url,
-            price : item.price
-        }
+    getOneCoffee = async (id) => {
+        const result = await this.getService(`/beans${id}`);
+        return result;
     }
 }
