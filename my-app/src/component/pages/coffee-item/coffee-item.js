@@ -3,18 +3,18 @@ import Banner from '../../banner';
 import ItemCoffee from '../../itemCoffee';
 import Footer from '../../footer';
 import GotService from '../../../service/got-service';
-import Spinner from '../../spinner';
-import ErrorMessage from '../../error-message';
 
 export default class CoffeeItem extends Component {
+
+	gotService = new GotService();
+
   	render () {
-		const {name} = this.props;
-		console.log(name)
+		const {itemName} = this.props;
 
 		return (
 			<>
 				<Banner bg={'banner'}/>
-				<ItemCoffee/>
+				<ItemCoffee coffeeName={itemName} getData={this.gotService.getCoffee}/>
 				<Footer/>
 			</>
 		);

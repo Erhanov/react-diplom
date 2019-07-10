@@ -7,8 +7,9 @@ import Footer from '../../footer';
 import GotService from '../../../service/got-service';
 import Spinner from '../../spinner';
 import ErrorMessage from '../../error-message';
+import {withRouter} from 'react-router-dom';
 
-export default class OurCoffee extends Component {
+class OurCoffee extends Component {
 
     state = {
         itemList : null,
@@ -31,7 +32,7 @@ export default class OurCoffee extends Component {
 
         getData()
             .then(this.renderList)
-            .catch();
+            .catch(this.onError);
     }
 
     renderList = (itemList) => {
@@ -85,7 +86,9 @@ export default class OurCoffee extends Component {
 
         const errorMessage = error ? <ErrorMessage/> : null;
         const spinner = loading ? <Spinner/> : null
-        const items = !(loading || error) ? <ItemList lists={visibleLists} getData={this.gotService.getCoffee}/> : null; 
+        const items = !(loading || error) ? <ItemList lists={visibleLists} 
+                                                      getData={this.gotService.getCoffee} 
+                                                      onItemSelected={(name) => this.props.history.push(`/beans/${name}`)}/> : null; 
 
         return (
             <>
@@ -106,3 +109,5 @@ export default class OurCoffee extends Component {
         )
     }
 }
+
+export default withRouter(OurCoffee);

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {withRouter} from 'react-router-dom';
 
 class ItemBeans extends Component {
 
@@ -7,9 +6,7 @@ class ItemBeans extends Component {
         return arr.map(item => {
             const {name, country, url, price} = item;
             return (
-                <div onClick={(name) => {
-                        this.props.history.push(name)
-                    }} key={name} className="shop__item">
+                <div onClick={() => this.props.onItemSelected(name)} key={name} className="shop__item">
                     <img src={url} alt="coffee"></img>
                     <div className="shop__item-title">
                         {name}
@@ -25,7 +22,7 @@ class ItemBeans extends Component {
         return arr.map(item => {
             const {name, url, price} = item;
             return (
-                <div key={name} className="best__item">
+                <div onClick={() => this.props.onItemSelected(name)} key={name} className="best__item">
                     <img src={url} alt="coffee"></img>
                     <div className="best__item-title">
                         {name}
@@ -63,4 +60,4 @@ class ItemBeans extends Component {
     }
 }
 
-export default withRouter(ItemBeans);
+export default ItemBeans;

@@ -3,7 +3,7 @@ import ItemBeans from '../itemBeans';
 import Spinner from '../spinner';
 import ErrorMessage from '../error-message';
 
-export default class ItemList extends Component {
+class ItemList extends Component {
 
     state = {
         itemList : null,
@@ -41,7 +41,7 @@ export default class ItemList extends Component {
     render () {
 
         const {itemList, loading, error} = this.state;
-        const {lists, page} = this.props;
+        const {lists, page, onItemSelected} = this.props;
 
         let errorMessage, spinner, items;
 
@@ -52,7 +52,7 @@ export default class ItemList extends Component {
         } else {
             errorMessage = error ? <ErrorMessage/> : null;
             spinner = loading ? <Spinner/> : null
-            items = !(loading || error) ? <ItemBeans itemList={lists} page={'coffee'}/> : null; 
+            items = !(loading || error) ? <ItemBeans onItemSelected={(name) => onItemSelected(name)} itemList={lists} page={'coffee'}/> : null; 
         }
 
         
@@ -70,3 +70,5 @@ export default class ItemList extends Component {
         )
     }
 }
+
+export default ItemList;

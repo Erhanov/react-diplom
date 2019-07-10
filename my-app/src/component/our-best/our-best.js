@@ -39,11 +39,12 @@ export default class OurBest extends Component {
 
     render () {
         const {itemList, loading, error} = this.state;
+        const {onItemSelected} = this.props;
 
 
         const errorMessage = error ? <ErrorMessage/> : null;
         const spinner = loading ? <Spinner/> : null
-        const items = !(loading || error) ? <ItemBeans itemList={itemList} page={'best'}/> : null; 
+        const items = !(loading || error) ? <ItemBeans onItemSelected={(name) => onItemSelected(name)} itemList={itemList} page={'best'}/> : null; 
         return (
             <section className="best">
                 <div className="container">

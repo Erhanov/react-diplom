@@ -28,8 +28,8 @@ export default class GotService {
         return result;
     }
 
-    getOneCoffee = async (id) => {
-        const result = await this.getService(`/beans${id}`);
+    getOneCoffee = async (name) => {
+        const result = await this.getService(`/coffee/${name}`);
         return result;
     }
 }

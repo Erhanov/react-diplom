@@ -19,12 +19,11 @@ export default class App extends Component {
 					<Route path='/beans' exact render={() => <OurCoffee getData={this.gotService.getCoffee}/>} />
 					<Route path='/pleasure' exact component={Pleasure} />
 					<Route path='/beans/:name' exact render={
-							({match}) => {
+                            ({match}) => {
                                 const {name} = match.params;
-
-                                return <CoffeeItem name={name} />
-							}
-						}/>
+                                return <CoffeeItem itemName={name} />
+                            }
+                        }></Route>
 				</Router>
 				
 				{/* <Banner bg={'banner'}/>
