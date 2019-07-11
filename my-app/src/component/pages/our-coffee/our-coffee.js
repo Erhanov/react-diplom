@@ -42,7 +42,7 @@ class OurCoffee extends Component {
         })
     }
 
-    onError() {
+    onError = () => {
         this.setState({
             loading : false,
             error : true

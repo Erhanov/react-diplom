@@ -20,7 +20,7 @@ export default class OurBest extends Component {
 
         getData()
                 .then(this.renderItem)
-                .catch();
+                .catch(this.onError);
     }
 
     renderItem = (itemList) => {
@@ -30,7 +30,7 @@ export default class OurBest extends Component {
         })
     }
 
-    onError() {
+    onError = () => {
         this.setState({
             loading : false,
             error : true
